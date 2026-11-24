@@ -1,0 +1,42 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+description = "VPosE stage 6: tray + autostart + orchestration (monolith; tray/service split is stage 7)"
+
+[dependencies]
+shared = { path = "../shared" }
+watcher = { path = "../watcher" }
+geo = { path = "../geo" }
+snapshot = { path = "../snapshot" }
+apply = { path = "../apply" }
+tokio = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+tracing-appender = "0.2"
+serde_json = { workspace = true }
+async-trait = { workspace = true }
+tray-icon = "0.26.1"
+image = { version = "0.25", default-features = false, features = ["ico", "png"] }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = [
+  "Win32_Foundation",
+  "Win32_Graphics_Gdi",
+  "Win32_System_Console",
+  "Win32_System_Threading",
+  "Win32_System_LibraryLoader",
+  "Win32_UI_Shell",
+  "Win32_UI_WindowsAndMessaging",
+] }
+
+# Workspace deny on unsafe_code is overridden here by explicit decision:
+# `sys/` is the single unsafe-capable tree of the workspace (stage 6);
+# everything else in this crate stays safe. Clippy lints are re-declared
+# so the gate (`clippy -D warnings`) keeps its teeth.
+[lints.rust]
+unsafe_code = "allow"
+
+[lints.clippy]
+undocumented_unsafe_blocks = "deny"
+unwrap_used = "warn"

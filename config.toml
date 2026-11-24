@@ -1,0 +1,19 @@
+# Windows/MinGW build environment for this workspace.
+#
+# - The `stable-x86_64-pc-windows-gnu` toolchain links with gcc and needs
+#   dlltool for the raw-dylib import libraries of the `windows` crates.
+#   This machine keeps that toolchain in C:\mingw64 (not on the user PATH),
+#   so the linker is pinned by absolute path here.
+# - The MinGW gcc cannot use the system %TEMP% (restrictive ACL), so TMP,
+#   TEMP and TMPDIR are pointed at the workspace-local .tmp directory.
+#
+# `relative = true` resolves against the directory containing this config
+# file, i.e. the workspace root.
+
+[env]
+TMP = { value = ".tmp", relative = true }
+TEMP = { value = ".tmp", relative = true }
+TMPDIR = { value = ".tmp", relative = true }
+
+[target.x86_64-pc-windows-gnu]
+linker = "C:\\mingw64\\bin\\gcc.exe"

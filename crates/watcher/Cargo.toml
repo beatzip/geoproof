@@ -1,0 +1,30 @@
+[package]
+name = "watcher"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+shared = { path = "../shared" }
+tokio = { version = "1", features = ["time", "sync", "macros", "rt-multi-thread"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+thiserror = "2"
+async-trait = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tracing = "0.1"
+futures = "0.3"
+
+[[bin]]
+name = "watcher-demo"
+path = "src/bin/watcher_demo.rs"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["test-util"] }
+[lints.rust]
+unsafe_code = "deny"
+
+
+[lints.clippy]
+# A package clippy table replaces the workspace one; keep the deny rules
+# and allow unwrap/expect in fixtures and unit tests.
+undocumented_unsafe_blocks = "deny"
+unwrap_used = "allow"

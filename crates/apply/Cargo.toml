@@ -1,0 +1,36 @@
+[package]
+name = "apply"
+version = "0.1.0"
+edition = "2021"
+description = "Reversible appliers: change Windows system state and roll it back (stage 4: timezone, stage 5: locale)"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+async-trait = { workspace = true }
+tokio = { workspace = true }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = [
+  "Win32_System_Time",
+  "Win32_System_Registry",
+  "Win32_System_Services",
+  "Win32_Security",
+  "Win32_Foundation",
+  "Win32_UI_Shell",
+  "Win32_UI_WindowsAndMessaging",
+  "Win32_System_SystemInformation",
+] }
+
+[[bin]]
+name = "apply-smoke"
+path = "src/bin/apply_smoke.rs"
+
+[[bin]]
+name = "locale-smoke"
+path = "src/bin/locale_smoke.rs"
+
+[lints]
+workspace = true

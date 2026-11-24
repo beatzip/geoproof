@@ -1,0 +1,32 @@
+[package]
+name = "snapshot"
+version = "0.1.0"
+edition = "2021"
+description = "Save-once system state capture, persistence and restore planning (stage 3, read-only)"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = [
+  "Win32_System_Time",
+  "Win32_System_Registry",
+  "Win32_System_Threading",
+  "Win32_Foundation",
+] }
+
+[[bin]]
+name = "snapshot-demo"
+path = "src/bin/snapshot_demo.rs"
+[lints.rust]
+unsafe_code = "deny"
+
+
+[lints.clippy]
+# A package clippy table replaces the workspace one; keep the deny rules
+# and allow unwrap/expect in fixtures and unit tests.
+undocumented_unsafe_blocks = "deny"
+unwrap_used = "allow"

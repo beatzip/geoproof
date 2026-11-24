@@ -1,0 +1,30 @@
+[package]
+name = "geo"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+description = "Geo lookup (ipapi.co) and IANA -> Windows timezone mapping"
+
+[dependencies]
+tokio = { workspace = true }
+reqwest = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+
+[build-dependencies]
+quick-xml = { workspace = true }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["test-util"] }
+[lints.rust]
+unsafe_code = "deny"
+
+
+[lints.clippy]
+# A package clippy table replaces the workspace one; keep the deny rules
+# and allow unwrap/expect in fixtures and unit tests.
+undocumented_unsafe_blocks = "deny"
+unwrap_used = "allow"
